@@ -1,11 +1,48 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 
 export default function FormCadastro () {
+
+    const [ emailCadastro, setEmailCadastro] = useState("")
+    const [ senhaCadastro, setSenhaCadastro] = useState("")
+    const [ nomeCadastro, setNomeCadastro] = useState("")
+    const [ fotoCadastro, setFotoCadastro] = useState("")
+    const navigate = useNavigate()
+
+
+    function Cadastrar (event) {
+        event.preventDefault()
+
+        const body = {
+            email: emailCadastro,
+            name: nomeCadastro,
+            image: fotoCadastro,
+            password: senhaCadastro
+        }
+
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", body)
+
+        promise.then( resposta => {
+            navigate("/")
+            console.log(resposta)
+        }
+ 
+        )
+        promise.catch( err => {
+            console.log(err)
+            alert("houve um erro no cadastro")
+            }  
+        )
+    }
+    
 
     return (
         <Container>
             <form onSubmit={Cadastrar}>
-                <input placeholder="email" type="email" value={emailCadastro} onChange={e => setEmailCadastro(e.target.value)} />
+                <input required placeholder="email" type="email" value={emailCadastro} onChange={e => setEmailCadastro(e.target.value)} />
                 <input placeholder="senha" type="password" value={senhaCadastro} onChange={e => setSenhaCadastro(e.target.value)} />
                 <input placeholder="nome" type="text" value={nomeCadastro} onChange={e => setNomeCadastro(e.target.value)} />
                 <input placeholder="foto" type="url" value={fotoCadastro} onChange={e => setFotoCadastro(e.target.value)} />
@@ -27,7 +64,7 @@ const Container = styled.div`
         width: 100%;
         height: 45px;
 
-        margin: 2% 0 4% 0;
+        margin: 2% 0 2% 0;
         padding: 0 0 0 10px;
 
         display: flex;
@@ -59,9 +96,10 @@ const Container = styled.div`
         height: 45px;
     
 
-        background: #E8833A;
-        border-radius: 3px;
+        background: #52B6FF;
+        border-radius: 4.63636px;
         border: 0;
+        margin-bottom: 10%;
 
         font-family: "Roboto";
         font-style: normal;

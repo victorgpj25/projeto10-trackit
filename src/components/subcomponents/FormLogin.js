@@ -1,11 +1,18 @@
+import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useContext } from "react";
+
+import UserContext from "../../contexts/UserContext";
 
 export default function FormLogin () {
 
+    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, Logar} = useContext(UserContext)
+
     return (
         <Container>
-            <form onSubmit={Cadastrar}>
-                <input placeholder="email" type="email" value={email} onChange={e => setEmailLogin(e.target.value)} />
+            <form onSubmit={Logar}>
+                <input placeholder="email" type="email" value={emailLogin} onChange={e => setEmailLogin(e.target.value)} />
                 <input placeholder="senha" type="password" value={senhaLogin} onChange={e => setSenhaLogin(e.target.value)} />
                 <button type="submit" disabled={!(emailLogin && senhaLogin)}>Entrar</button>
             </form>
@@ -25,7 +32,7 @@ const Container = styled.div`
         width: 100%;
         height: 45px;
 
-        margin: 2% 0 4% 0;
+        margin: 2% 0 2% 0;
         padding: 0 0 0 10px;
 
         display: flex;
@@ -56,10 +63,10 @@ const Container = styled.div`
         width: 100%;
         height: 45px;
     
-
-        background: #E8833A;
-        border-radius: 3px;
+        background: #52B6FF;
+        border-radius: 4.63636px;
         border: 0;
+        margin-bottom: 10%;
 
         font-family: "Roboto";
         font-style: normal;

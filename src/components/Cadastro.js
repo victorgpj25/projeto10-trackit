@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import Logo from  "./subcomponents/Logo.js";
+
 import FormCadastro from  "./subcomponents/FormCadastro.js";
+import Logo from "../image/logo.png";
 
 export default function Cadastro () {
     return (
         <Container>
-            <Logo />
+            <img src={Logo} alt="Logo TrackIt" />
             <FormCadastro />
             <StyledLink to ="/">Já tem uma conta? Faça login!</StyledLink>
         </Container>
@@ -29,13 +30,21 @@ const StyledLink = styled(Link)`
 `;
 
 const Container = styled.div`
-	width: 100%;
-    height: auto;
+	width: 100vw;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 0 9.6%;
 
 	background-color: #FFFFFF;
+
+    img {
+        width: 50vw;
+        height: auto;
+
+        margin-bottom: 2.5vh;
+    }
 `;

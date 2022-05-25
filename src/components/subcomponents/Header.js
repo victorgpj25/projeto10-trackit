@@ -1,21 +1,25 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { useContext } from "react";
 
+import UserContext from "../../contexts/UserContext";
 
 export default function Header () {
 
+    const { profileImg, profileName} = useContext(UserContext)
+
     return (
         <Container>
-            <h1></h1>
+            <h1>TrackIt</h1>
             <img src={profileImg} alt={profileName} />
         </Container>
     )
 }
 
 const Container = styled.div`
-	width: 100%;
-    height: auto;
+	width: 100vw;
+    height: 10.5vh;
 
     position: fixed;
     top: 0;
@@ -23,7 +27,9 @@ const Container = styled.div`
 
     display: flex;
     justify-content: space-between;
-    padding: 20px 4.8%;
+    align-items: center;
+    padding: 0 5vw;
+
 
 	background-color: #126BA5;
 
@@ -39,8 +45,8 @@ const Container = styled.div`
     }
 
     img {
-        width: 51px;
-        height: 51px;
+        width: 13.5vw;
+        height: 13.5vw;
 
         border-radius: 98.5px;
     }
