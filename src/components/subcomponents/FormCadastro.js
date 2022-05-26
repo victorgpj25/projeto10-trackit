@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
+import { ThreeDots } from  "react-loader-spinner";
 
 export default function FormCadastro () {
 
@@ -10,11 +11,13 @@ export default function FormCadastro () {
     const [ senhaCadastro, setSenhaCadastro] = useState("")
     const [ nomeCadastro, setNomeCadastro] = useState("")
     const [ fotoCadastro, setFotoCadastro] = useState("")
+    const [ loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
 
     function Cadastrar (event) {
         event.preventDefault()
+        setLoading(true)
 
         const body = {
             email: emailCadastro,
@@ -26,13 +29,13 @@ export default function FormCadastro () {
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", body)
 
         promise.then( resposta => {
+            setLoading(false)
             navigate("/")
-            console.log(resposta)
         }
  
         )
         promise.catch( err => {
-            console.log(err)
+            setLoading(false)
             alert("houve um erro no cadastro")
             }  
         )
@@ -42,11 +45,11 @@ export default function FormCadastro () {
     return (
         <Container>
             <form onSubmit={Cadastrar}>
-                <input required placeholder="email" type="email" value={emailCadastro} onChange={e => setEmailCadastro(e.target.value)} />
-                <input placeholder="senha" type="password" value={senhaCadastro} onChange={e => setSenhaCadastro(e.target.value)} />
-                <input placeholder="nome" type="text" value={nomeCadastro} onChange={e => setNomeCadastro(e.target.value)} />
-                <input placeholder="foto" type="url" value={fotoCadastro} onChange={e => setFotoCadastro(e.target.value)} />
-                <button type="submit" disabled={!(emailCadastro && senhaCadastro && nomeCadastro && fotoCadastro)}>Cadastrar</button>
+                <input disabled={loading} placeholder="email" type="email" value={emailCadastro} onChange={e => setEmailCadastro(e.target.value)} />
+                <input disabled={loading} placeholder="senha" type="password" value={senhaCadastro} onChange={e => setSenhaCadastro(e.target.value)} />
+                <input disabled={loading} placeholder="nome" type="text" value={nomeCadastro} onChange={e => setNomeCadastro(e.target.value)} />
+                <input disabled={loading} placeholder="foto" type="url" value={fotoCadastro} onChange={e => setFotoCadastro(e.target.value)} />
+                <button type="submit" disabled={!(emailCadastro && senhaCadastro && nomeCadastro && fotoCadastro) || loading}>{loading ? <ThreeDots height="50" width="50" color='white' ariaLabel='loading' /> : "Cadastrar"}</button>
             </form>
         </Container>
     )
@@ -78,7 +81,11 @@ const Container = styled.div`
         font-size: 19.976px;
         line-height: 25px;
 
-        color: #000000;
+        color: #666666;
+    }
+    form input:disabled {
+        color: #AFAFAF;
+        background: #F2F2F2;
     }
     form input::placeholder {
         font-family: "Lexend Deca";
@@ -113,5 +120,8 @@ const Container = styled.div`
         text-decoration: none;
 
         color: #FFFFFF;
+    }
+    form button:disabled {
+        opacity: 0.7;
     }
 `;

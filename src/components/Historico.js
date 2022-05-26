@@ -5,19 +5,24 @@ import Footer from "./subcomponents/Footer.js";
 
 export default function Historico () {
     return (
-        <Container >
+        <>
             <Header />
+            <Container >
+
+            </Container>
             <Footer />
-        </Container >
+        </>
     )
 }
 
 const Container = styled.div`
-	width: 100%;
+	width: 90vw;
     height: auto;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 
-	background-color: #F2F2F2;
+    margin: 10.5vh 5vw;
+
 `;

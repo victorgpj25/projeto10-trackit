@@ -2,16 +2,22 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useContext } from "react";
+
+import HabitsContext from "../../contexts/HabitsContext";
 
 export default function Footer () {
+
+    const { habitosDiaTotal, habitosDiaConcluidos } = useContext(HabitsContext)
+
     return (
         <Container>
             <StyledLink to="/habitos">Hábitos</StyledLink>
             <StyledProgressBar to="/hoje">
-                <StyledCircularProgressbar value="10" text="Hoje" strokeWidth="12" styles={buildStyles({
+                <CircularProgressbar value={habitosDiaTotal > 0 ? (habitosDiaConcluidos / habitosDiaTotal) * 100 : 0} text={"Hoje"} strokeWidth="10" styles={buildStyles({
                     pathColor: "#FFFFFF",
                     trailColor: "#52B6FF",
-                    textSize: "18px", 
+                    textSize: "22px", 
                     textColor: "#FFFFFF"
                     })} 
                 />
@@ -21,13 +27,7 @@ export default function Footer () {
     )
 }
 
-const StyledCircularProgressbar= styled(CircularProgressbar)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    
-`;
 
 const StyledLink = styled(Link)`
     width: auto;
@@ -52,7 +52,7 @@ const StyledProgressBar = styled(Link)`
     transform: translate(-50%, 0);
 
     border-radius: 50%;
-    padding: 1%;
+    padding: 1.5%;
 
     font-family: "Lexend Deca";
     font-style: normal;

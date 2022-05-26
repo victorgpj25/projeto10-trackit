@@ -1,20 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { ThreeDots } from  "react-loader-spinner";
 import UserContext from "../../contexts/UserContext";
 
 export default function FormLogin () {
 
-    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, Logar} = useContext(UserContext)
+    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, setConfig} = useContext(UserContext)
+    const [ loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+
+
+    useEffect(() => { 
+        LogarStorage()
+	}, []);
+
+    function LogarStorage () {
+        
+        if (window.confirm("Logar com perfil salvo no dispositivo?")) {
+            setLoading(true)
+            const body = {
+                email: localStorage.getItem("email"),
+                password: localStorage.getItem("senha")
+            }
+    
+            const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
+    
+            promise.then( resposta => {
+                setLoading(false)
+                setProfileName(resposta.data.name)
+                setProfileImg(resposta.data.image)
+                setConfig({headers: {Authorization: `Bearer ${resposta.data.token}`}})
+                navigate("/hoje")
+                }
+            )
+            promise.catch( err => {
+                setLoading(false)
+                alert("houve um erro no login")
+                }  
+            )
+
+        }
+
+    }
+
+    function Logar (event) {
+        event.preventDefault()
+        setLoading(true)
+
+        const body = {
+            email: emailLogin,
+            password: senhaLogin
+        }
+
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
+
+        promise.then( resposta => {
+            setLoading(false)
+            localStorage.setItem("email", resposta.data.email)
+            localStorage.setItem("senha", resposta.data.password)
+            setProfileName(resposta.data.name)
+            setProfileImg(resposta.data.image)
+            setConfig({headers: {Authorization: `Bearer ${resposta.data.token}`}})
+            navigate("/hoje")
+            }
+        )
+        promise.catch( err => {
+            setLoading(false)
+            alert("houve um erro no login")
+            }  
+        )
+
+    }
 
     return (
         <Container>
             <form onSubmit={Logar}>
-                <input placeholder="email" type="email" value={emailLogin} onChange={e => setEmailLogin(e.target.value)} />
-                <input placeholder="senha" type="password" value={senhaLogin} onChange={e => setSenhaLogin(e.target.value)} />
-                <button type="submit" disabled={!(emailLogin && senhaLogin)}>Entrar</button>
+                <input disabled={loading} placeholder="email" type="email" value={emailLogin} onChange={e => setEmailLogin(e.target.value)} />
+                <input disabled={loading} placeholder="senha" type="password" value={senhaLogin} onChange={e => setSenhaLogin(e.target.value)} />
+                <button type="submit" disabled={!(emailLogin && senhaLogin) || loading}>{loading ? <ThreeDots height="50" width="50" color='white' ariaLabel='loading' /> : "Entrar"}</button>
             </form>
         </Container>
     )
@@ -46,7 +113,11 @@ const Container = styled.div`
         font-size: 19.976px;
         line-height: 25px;
 
-        color: #000000;
+        color: #666666;
+    }
+    form input:disabled {
+        color: #AFAFAF;
+        background: #F2F2F2;
     }
     form input::placeholder {
         font-family: "Lexend Deca";
@@ -80,5 +151,8 @@ const Container = styled.div`
         text-decoration: none;
 
         color: #FFFFFF;
+    }
+    form button:disabled {
+        opacity: 0.7;
     }
 `;

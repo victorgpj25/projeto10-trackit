@@ -2,22 +2,28 @@ import styled from "styled-components";
 
 import Header from "./subcomponents/Header.js";
 import Footer from "./subcomponents/Footer.js";
+import HabitosUsuario from "./subcomponents/HabitosUsuario.js";
 
 export default function Habitos () {
     return (
-        <Container >
+        <>
             <Header />
+            <Container >
+                <HabitosUsuario />
+            </Container>
             <Footer />
-        </Container >
+        </>
     )
 }
 
 const Container = styled.div`
-	width: 100%;
+	width: 90vw;
     height: auto;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 
-	background-color: #F2F2F2;
+    margin: 10.5vh 5vw;
+
 `;
