@@ -9,8 +9,7 @@ import UserContext from "../../contexts/UserContext";
 
 export default function FormLogin () {
 
-    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, setConfig} = useContext(UserContext)
-    const [ loading, setLoading] = useState(false)
+    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, setConfig, loading, setLoading} = useContext(UserContext)
     const navigate = useNavigate()
 
 

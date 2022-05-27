@@ -2,16 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import { useContext } from "react";
 
+import UserContext from "../../contexts/UserContext";
 import { ThreeDots } from  "react-loader-spinner";
 
 export default function FormCadastro () {
 
+    const { loading, setLoading } = useContext(UserContext)
     const [ emailCadastro, setEmailCadastro] = useState("")
     const [ senhaCadastro, setSenhaCadastro] = useState("")
     const [ nomeCadastro, setNomeCadastro] = useState("")
     const [ fotoCadastro, setFotoCadastro] = useState("")
-    const [ loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
 

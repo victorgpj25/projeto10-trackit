@@ -8,7 +8,7 @@ import Trash from "../../image/trash.png";
 
 export default function HabitoUsuario ({ name, id, dias, diasHabito, getHabitos }) {
 
-    const { config } = useContext(UserContext)
+    const { config} = useContext(UserContext)
 
     function DeletarHabito () {
         if (window.confirm("Você realmente deseja deletar este hábito?")) {
@@ -73,6 +73,10 @@ const StyledItem = styled.li`
     border-radius: 5px;
 
     h1 {
+        width: 60vw;
+        height: auto;
+        word-wrap: break-word;
+
         font-family: 'Lexend Deca';
         font-style: normal;
         font-weight: 400;

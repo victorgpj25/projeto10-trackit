@@ -74,6 +74,7 @@ const Container = styled.div`
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 1;
 
     display: flex;
     justify-content: space-between;

@@ -9,13 +9,12 @@ import { ThreeDots } from  "react-loader-spinner";
 
 export default function HabitosUsuario () {
 
-    const { config } = useContext(UserContext)
+    const { config, loading, setLoading } = useContext(UserContext)
     const [ displayTemplate, setDisplayTemplate ] = useState(false)
     const [ numHabitos, setNumHabitos ] = useState(0)
     const [ habitos, setHabitos ] = useState([])
     const [ nomeHabito, setNomeHabito ] = useState("")
     const [ diasHabito, setDiasHabito ] = useState([])
-    const [ loading, setLoading] = useState(false)
     const dias = ["D", "S", "T", "Q", "Q", "S", "S"]
 
     function getHabitos () {

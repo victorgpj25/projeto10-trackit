@@ -13,7 +13,7 @@ export default function InfoDia () {
 
     return (
         <Container>
-            <h1>{diaSemana[dayjs().day()]}, {dayjs().date()}/{String(dayjs().month() + 1).padStart(2, '0')}</h1>
+            <h1>{diaSemana[dayjs().day()]}, {String(dayjs().date()).padStart(2, '0')}/{String(dayjs().month() + 1).padStart(2, '0')}</h1>
             {habitosDiaConcluidos > 0 ? <StyledH2 color="#8FC549">{Math.round((habitosDiaConcluidos / habitosDiaTotal) * 100)}% dos hábitos concluidos</StyledH2> : <StyledH2 color="#BABABA">Nenhum hábito concluído ainda</StyledH2>}
         </Container>
     )

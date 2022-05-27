@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import UserContext from "./contexts/UserContext";
 import HabitsContext from "./contexts/HabitsContext"
@@ -28,10 +29,42 @@ export default function App () {
 
     const [ habitos, setHabitos ] = useState([])
 
+    const [ loading, setLoading ] = useState(false)
+
+    const navigate = useNavigate()
+
+    function verificarLogin () {
+        if (config === "") {
+            setLoading(true)
+            const body = {
+                email: localStorage.getItem("email"),
+                password: localStorage.getItem("senha")
+            }
+    
+            const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
+    
+            promise.then( resposta => {
+                setLoading(false)
+                setProfileName(resposta.data.name)
+                setProfileImg(resposta.data.image)
+                setConfig({headers: {Authorization: `Bearer ${resposta.data.token}`}})
+                navigate("/")
+                }
+            )
+            promise.catch( err => {
+                setLoading(false)
+                alert("houve um erro no login")
+                }  
+            )
+
+        }
+
+    }
+
 
     
     return (
-        <UserContext.Provider value={{emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, profileImg, setProfileImg, profileName, setProfileName, config, setConfig}}>
+        <UserContext.Provider value={{emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, profileImg, setProfileImg, profileName, setProfileName, config, setConfig, verificarLogin, loading, setLoading}}>
             <HabitsContext.Provider value ={{habitosDiaTotal, setHabitosDiaTotal, habitosDiaConcluidos, setHabitosDiaConcluidos, habitosDia, setHabitosDia, habitos, setHabitos}}>
                 <GlobalStyle />
                 <Routes>

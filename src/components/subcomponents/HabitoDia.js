@@ -46,7 +46,6 @@ const StyledDiv = styled.div`
     width: 69px;
     height: 69px;
 
-    background: #8FC549;
     border-radius: 5px;
 
     display: flex;
@@ -67,6 +66,7 @@ const StyledItem = styled.li`
     height: auto;
 
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     padding: 3.5vw;
@@ -76,6 +76,10 @@ const StyledItem = styled.li`
     border-radius: 5px;
 
     h1 {
+        width: 60vw;
+        height: auto;
+        word-wrap: break-word;
+
         margin-bottom: 8px;
 
         font-family: 'Lexend Deca';
