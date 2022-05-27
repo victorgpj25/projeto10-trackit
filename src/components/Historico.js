@@ -13,7 +13,7 @@ import "react-calendar/dist/Calendar.css";
 
 export default function Historico () {
 
-    const { config, verificarLogin } = useContext(UserContext)
+    const { config, verificarLogin, loading } = useContext(UserContext)
     const [ historico, setHistorico ] = useState([])
     const [ display, setDisplay ] = useState("none")
     const [ diaSelecionado, setDiaSelecionado ] = useState({})
@@ -23,13 +23,14 @@ export default function Historico () {
     useEffect(() => {
         verificarLogin()
 
-        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily", config)
+        if (!loading) {
+            const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily", config)
 
-        promise.then(resposta => {
-            setHistorico(resposta.data)
-            
-        })
-        
+            promise.then(resposta => {
+                setHistorico(resposta.data)
+                
+            })
+        }
 	}, []);
 
     return (
@@ -85,21 +86,25 @@ const StyledCalendar = styled(Calendar)`
     border: 0;
 
     div:last-child button {
+        padding: 5px;
         font-size: 16px;
-        line-height: 30px;
+        line-height: 20px;
         border-radius: 15px;
-        
 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    abbr {
+        padding: 10px;
+        border-radius: 40px;
     }
 
     .verde abbr {
-        padding: 10px;
-        border-radius: 40px;
         background-color: #8FC549;
     }
     .vermelho abbr {
-        padding: 10px;
-        border-radius: 40px;
         background-color: #ff4d4d;
     }
 

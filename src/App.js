@@ -29,7 +29,7 @@ export default function App () {
 
     const [ habitos, setHabitos ] = useState([])
 
-    const [ loading, setLoading ] = useState(false)
+    const [ loading, setLoading ] = useState(true)
 
     const navigate = useNavigate()
 

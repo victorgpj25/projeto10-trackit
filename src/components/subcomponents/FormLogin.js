@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useContext } from "react";
@@ -9,16 +9,22 @@ import UserContext from "../../contexts/UserContext";
 
 export default function FormLogin () {
 
-    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, setConfig, loading, setLoading} = useContext(UserContext)
+    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, config, setConfig, loading, setLoading} = useContext(UserContext)
     const navigate = useNavigate()
 
 
     useEffect(() => { 
-        LogarStorage()
+        setLoading(false)
+        if (config === "") {
+            if (localStorage.length > 0) {
+                LogarStorage()
+            }
+        } else {
+            navigate("/hoje")
+        }
 	}, []);
 
     function LogarStorage () {
-        
         if (window.confirm("Logar com perfil salvo no dispositivo?")) {
             setLoading(true)
             const body = {
@@ -43,6 +49,7 @@ export default function FormLogin () {
             )
 
         }
+
 
     }
 

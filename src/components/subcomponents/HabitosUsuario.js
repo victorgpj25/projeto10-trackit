@@ -48,7 +48,10 @@ export default function HabitosUsuario () {
     }
 
     useEffect(() => {
-        getHabitos()
+        if (!loading) {
+            getHabitos()
+        }
+        
 	}, []);
 
     const displayHabitos = habitos.map( (habito, index) => {

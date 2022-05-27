@@ -10,7 +10,7 @@ import HabitoDia from "./HabitoDia.js";
 
 export default function HabitosDia () {
 
-    const { config } = useContext(UserContext)
+    const { config, loading } = useContext(UserContext)
     const { habitosDia, setHabitosDia, setHabitosDiaTotal, setHabitosDiaConcluidos } = useContext(HabitsContext)
 
     function getHabitosDia () {
@@ -28,7 +28,10 @@ export default function HabitosDia () {
 
 
     useEffect(() => {
-        getHabitosDia()
+        if (!loading) {
+            getHabitosDia()
+        }
+        
 	}, []);
 
     const displayHabitosDia = habitosDia.map( (habito, index) => {
