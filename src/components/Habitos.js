@@ -1,19 +1,10 @@
-import { useEffect } from "react";
 import styled from "styled-components";
-import { useContext } from "react";
 
-import UserContext from "../contexts/UserContext";
 import Header from "./subcomponents/Header.js";
 import Footer from "./subcomponents/Footer.js";
 import HabitosUsuario from "./subcomponents/HabitosUsuario.js";
 
 export default function Habitos () {
-
-    const { verificarLogin } = useContext(UserContext)
-
-    useEffect(() => {
-        verificarLogin()
-	}, []);
 
     return (
         <>

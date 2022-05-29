@@ -9,18 +9,14 @@ import UserContext from "../../contexts/UserContext";
 
 export default function FormLogin () {
 
-    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, config, setConfig, loading, setLoading} = useContext(UserContext)
+    const {emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, setProfileName, setProfileImg, setConfig, loading, setLoading} = useContext(UserContext)
     const navigate = useNavigate()
 
 
     useEffect(() => { 
         setLoading(false)
-        if (config === "") {
-            if (localStorage.length > 0) {
-                LogarStorage()
-            }
-        } else {
-            navigate("/hoje")
+        if (localStorage.length) {
+            LogarStorage()
         }
 	}, []);
 
@@ -35,6 +31,11 @@ export default function FormLogin () {
             const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
     
             promise.then( resposta => {
+                localStorage.setItem("profileName", resposta.data.name)
+                localStorage.setItem("email", resposta.data.email)
+                localStorage.setItem("senha", resposta.data.password)
+                localStorage.setItem("profileImg", resposta.data.image)
+                localStorage.setItem("config", resposta.data.token)
                 setLoading(false)
                 setProfileName(resposta.data.name)
                 setProfileImg(resposta.data.image)
@@ -65,9 +66,12 @@ export default function FormLogin () {
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
 
         promise.then( resposta => {
-            setLoading(false)
+            localStorage.setItem("profileName", resposta.data.name)
+            localStorage.setItem("profileImg", resposta.data.image)
             localStorage.setItem("email", resposta.data.email)
             localStorage.setItem("senha", resposta.data.password)
+            localStorage.setItem("config", resposta.data.token)
+            setLoading(false)
             setProfileName(resposta.data.name)
             setProfileImg(resposta.data.image)
             setConfig({headers: {Authorization: `Bearer ${resposta.data.token}`}})

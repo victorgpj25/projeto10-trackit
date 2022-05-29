@@ -15,13 +15,13 @@ import Historico from "./components/Historico.js";
 
 export default function App () {
 
-    const [config, setConfig ] = useState("")
+    const [config, setConfig ] = useState({headers: {Authorization: `Bearer ${localStorage.getItem("config")}`}} || "")
 
     const [ emailLogin, setEmailLogin ] = useState("")
     const [ senhaLogin, setSenhaLogin ] = useState("")
 
-    const [ profileName ,setProfileName ] = useState("")
-    const [ profileImg ,setProfileImg ] = useState("")
+    const [ profileName ,setProfileName ] = useState(localStorage.getItem("profileName") || "")
+    const [ profileImg ,setProfileImg ] = useState(localStorage.getItem("profileImg") || "")
 
     const [ habitosDia, setHabitosDia ] = useState([])
     const [ habitosDiaConcluidos, setHabitosDiaConcluidos ] = useState(0)
@@ -29,43 +29,29 @@ export default function App () {
 
     const [ habitos, setHabitos ] = useState([])
 
-    const [ loading, setLoading ] = useState(true)
-
+    const [ loading, setLoading ] = useState(false)
     const navigate = useNavigate()
 
-    function verificarLogin () {
-        if (config === "") {
-            setLoading(true)
-            const body = {
-                email: localStorage.getItem("email"),
-                password: localStorage.getItem("senha")
-            }
-    
-            const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
-    
-            promise.then( resposta => {
-                setLoading(false)
-                setProfileName(resposta.data.name)
-                setProfileImg(resposta.data.image)
-                setConfig({headers: {Authorization: `Bearer ${resposta.data.token}`}})
-                navigate("/")
-                }
-            )
-            promise.catch( err => {
-                setLoading(false)
-                alert("houve um erro no login")
-                }  
-            )
+    function getHabitosDia () {
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config)
 
-        }
+        promise.then( resposta => {
+            setHabitosDia(resposta.data)
+            setHabitosDiaTotal(resposta.data.length)
+            setHabitosDiaConcluidos(resposta.data.filter( habito => habito.done).length)
+        })
+        promise.catch( () => {
+            alert("Houve um erro com os dados do usuário, retornando para tela de login")
+            navigate("/")
+
+        })
 
     }
 
 
-    
     return (
-        <UserContext.Provider value={{emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, profileImg, setProfileImg, profileName, setProfileName, config, setConfig, verificarLogin, loading, setLoading}}>
-            <HabitsContext.Provider value ={{habitosDiaTotal, setHabitosDiaTotal, habitosDiaConcluidos, setHabitosDiaConcluidos, habitosDia, setHabitosDia, habitos, setHabitos}}>
+        <UserContext.Provider value={{emailLogin, setEmailLogin, senhaLogin, setSenhaLogin, profileImg, setProfileImg, profileName, setProfileName, config, setConfig, loading, setLoading}}>
+            <HabitsContext.Provider value ={{habitosDiaTotal, setHabitosDiaTotal, habitosDiaConcluidos, setHabitosDiaConcluidos, habitosDia, setHabitosDia, habitos, setHabitos, getHabitosDia}}>
                 <GlobalStyle />
                 <Routes>
                     <Route path="/" element={<Login />} />

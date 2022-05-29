@@ -75,6 +75,10 @@ const StyledItem = styled.li`
     background: #FFFFFF;
     border-radius: 5px;
 
+    :last-child {
+        margin-bottom: 4vh;
+    }
+
     h1 {
         width: 60vw;
         height: auto;

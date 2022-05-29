@@ -3,12 +3,14 @@ import axios from "axios";
 import { useContext } from "react";
 
 import UserContext from "../../contexts/UserContext";
+import HabitsContext from "../../contexts/HabitsContext";
 import Trash from "../../image/trash.png";
 
 
 export default function HabitoUsuario ({ name, id, dias, diasHabito, getHabitos }) {
 
-    const { config} = useContext(UserContext)
+    const { config } = useContext(UserContext)
+    const { getHabitosDia } = useContext(HabitsContext)
 
     function DeletarHabito () {
         if (window.confirm("Você realmente deseja deletar este hábito?")) {
@@ -16,6 +18,7 @@ export default function HabitoUsuario ({ name, id, dias, diasHabito, getHabitos 
         
             promise.then( () => {
                 getHabitos()
+                getHabitosDia()
             })
         }
     }
@@ -71,6 +74,10 @@ const StyledItem = styled.li`
 
     background: #FFFFFF;
     border-radius: 5px;
+
+    :last-child {
+        margin-bottom: 4vh;
+    }
 
     h1 {
         width: 60vw;

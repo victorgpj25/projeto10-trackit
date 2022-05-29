@@ -13,7 +13,7 @@ import "react-calendar/dist/Calendar.css";
 
 export default function Historico () {
 
-    const { config, verificarLogin, loading } = useContext(UserContext)
+    const { config } = useContext(UserContext)
     const [ historico, setHistorico ] = useState([])
     const [ display, setDisplay ] = useState("none")
     const [ diaSelecionado, setDiaSelecionado ] = useState({})
@@ -21,16 +21,13 @@ export default function Historico () {
     const diaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
 
     useEffect(() => {
-        verificarLogin()
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily", config)
 
-        if (!loading) {
-            const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily", config)
+        promise.then(resposta => {
+            setHistorico(resposta.data)
+            
+        })
 
-            promise.then(resposta => {
-                setHistorico(resposta.data)
-                
-            })
-        }
 	}, []);
 
     return (

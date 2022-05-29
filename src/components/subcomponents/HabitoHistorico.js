@@ -22,10 +22,15 @@ const StyledItem = styled.li`
     align-items: center;
     justify-content: space-between;
     padding: 2vw;
-    margin-bottom: 1vh;
+    margin: 1.5vh 0 1.5vh;
 
     border-radius: 10px;
-    border: 2px solid #CFCFCF;
+    border: 1px solid #e3e3e3;
+    background-color: #FFFFFF;
+
+    :first-child {
+        margin-top: 2vh;
+    }
 
     h1 {
         width: 60vw;

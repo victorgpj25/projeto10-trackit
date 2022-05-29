@@ -4,12 +4,14 @@ import axios from "axios";
 import { useContext } from "react";
 
 import UserContext from "../../contexts/UserContext";
+import HabitsContext from "../../contexts/HabitsContext";
 import HabitoUsuario from "./HabitoUsuario.js";
 import { ThreeDots } from  "react-loader-spinner";
 
 export default function HabitosUsuario () {
 
     const { config, loading, setLoading } = useContext(UserContext)
+    const { getHabitosDia } = useContext(HabitsContext)
     const [ displayTemplate, setDisplayTemplate ] = useState(false)
     const [ numHabitos, setNumHabitos ] = useState(0)
     const [ habitos, setHabitos ] = useState([])
@@ -43,6 +45,7 @@ export default function HabitosUsuario () {
             setNomeHabito("")
             setDiasHabito([])
             getHabitos()
+            getHabitosDia()
         })
 
     }
@@ -97,7 +100,7 @@ export default function HabitosUsuario () {
                 </ol>
                 <section>
                     <button disabled={loading} onClick={() => setDisplayTemplate(false)}>Cancelar</button>
-                    <button disabled={!(nomeHabito && diasHabito.length > 0) || loading}onClick={AdicionarHabito}>{loading ? <ThreeDots height="30" width="50" color='white' ariaLabel='loading' /> : "Salvar"}</button>
+                    <button disabled={!(nomeHabito && diasHabito.length) || loading}onClick={AdicionarHabito}>{loading ? <ThreeDots height="30" width="50" color='white' ariaLabel='loading' /> : "Salvar"}</button>
                 </section>
             </Template>
             : null}

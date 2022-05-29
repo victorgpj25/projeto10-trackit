@@ -2,13 +2,17 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import HabitsContext from "../../contexts/HabitsContext";
 
 export default function Footer () {
 
-    const { habitosDiaTotal, habitosDiaConcluidos } = useContext(HabitsContext)
+    const { habitosDiaTotal, habitosDiaConcluidos, getHabitosDia } = useContext(HabitsContext)
+
+    useEffect(() => {
+        getHabitosDia()
+	}, []);
 
     return (
         <Container>
